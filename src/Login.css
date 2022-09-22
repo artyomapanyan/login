@@ -1,0 +1,57 @@
+.login-div{
+    background-color: bisque;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+    
+} 
+
+.div-link-home {
+    border: 1px solid black;
+    padding: 30px;
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 100px;
+    
+
+}
+
+.div-nkarner {
+    padding: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid black;
+
+}
+
+.div-nkar1 {
+    width: 400px;
+    padding: 50px;
+    border: 1px solid black;
+    
+}
+
+.div-nkar2 {
+    width: 400px;
+    padding: 50px;
+    border: 1px solid black;
+}
+
+.commentText {
+    font-size: 11px;
+    
+} 
+
+.link-home {
+    border: 1px solid black;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: black;
+    background-color: rgb(67, 176, 223);
+}

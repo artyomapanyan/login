@@ -1,0 +1,21 @@
+main {
+    background-color: rgb(138, 209, 245);
+    margin: 0 auto;
+    border: 1px solid black;
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 100px;
+}
+
+.link-login {
+    border: 1px solid black;
+    margin-left: 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    color: black;
+    background-color: antiquewhite;
+    padding-bottom: 3px;
+    font-size: 14px;
+}
