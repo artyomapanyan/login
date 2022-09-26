@@ -9,7 +9,6 @@ function Image1Text({text}) {
                 <div className="span1">
                     <div>
                         {text.coment}
-                    
                         {text.date}
                     </div>    
                         

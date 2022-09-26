@@ -23,12 +23,12 @@ function Home() {
     return (
       <div className="main">
         <main>
-          <form>
-            <label>
+          <form onSubmit={qqq}>
+            
                Login <input type="text" onChange={aaa}/>
                Password <input type="password"  onChange={aaa} />
                 <Link to="/about" className="link-login" onClick={qqq}>войти</Link>
-            </label>
+            
           </form>
         </main>
       </div>
