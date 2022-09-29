@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
-import Image1 from "./Image1";
-import Image2 from "./Image2";
+import Image from "./Image";
+import nkar1 from "./images/nkar1.jpg"
+import nkar2 from "./images/nkar2.jpg"
 
 function Login() {
   
@@ -19,7 +20,8 @@ function Login() {
                 
               </div>
 
-              <Image1 />
+              <Image 
+                    image={nkar1}/>
             </div>
             <div className="div-nkar2">
               
@@ -27,7 +29,8 @@ function Login() {
               <div className="commentText">
               
               </div>
-              <Image2 />
+              <Image 
+                    image={nkar2}/>
             </div>
        </div>
       </div>
