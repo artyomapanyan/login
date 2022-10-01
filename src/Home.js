@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Home.css"
 
@@ -8,32 +8,38 @@ import 'antd/dist/antd.css';
 import React from 'react';
 
 function Home() {
-  const [valueLogin, setValueLogin] = useState("");
-  const [valuePassword, setValuePassword] = useState("");
+  // const [valueLogin, setValueLogin] = useState("");
+  // const [valuePassword, setValuePassword] = useState("");
    
     let login = "artyom";
     let password = "apanyan";
     
-    let aaa = (e) => {
-      setValuePassword(e.target.value)
-    }
+    // let aaa = (e) => {
+    //   setValuePassword(e.target.value)
+    // }
 
-    let bbb = (e) => {
-      setValueLogin(e.target.value)
-    }
+    // let bbb = (e) => {
+    //   setValueLogin(e.target.value)
+    // }
 
-    let qqq = (e) =>  {
-      if (valueLogin !== login) {
-        e.preventDefault();
-        alert("неправильное имя пользователя или пароль") 
-      } else if (valuePassword !== password) {
-        e.preventDefault();
-        alert("неправильное имя пользователя или пароль") 
-      }
-    }
+    // let qqq = (e) =>  {
+    //   if (valueLogin !== login) {
+    //     e.preventDefault();
+    //     alert("неправильное имя пользователя или пароль") 
+    //   } else if (valuePassword !== password) {
+    //     e.preventDefault();
+    //     alert("неправильное имя пользователя или пароль") 
+    //   }
+    // }
+
+    let navigate = useNavigate();
 
     const onFinish = (values) => {
-      console.log('Received values of form: ', values);
+      if (values.password === password && values.username === login) {
+        navigate('about')
+      } else {
+        alert("неправильное имя пользователя или пароль")
+      }
     };
 
     return (
@@ -50,13 +56,12 @@ function Home() {
 
         <div className="div-form">
          <Form
-          onSubmit={qqq}
             name="normal_login"
             className="login-form"
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+             onFinish={onFinish}
           >
             <Form.Item
               name="username"
@@ -67,7 +72,7 @@ function Home() {
                 },
               ]}
             >
-              <Input prefix={<UserOutlined className="site-form-item-icon" />} onChange={bbb} placeholder="Username" />
+              <Input prefix={<UserOutlined className="site-form-item-icon" />}  placeholder="Username" />
             </Form.Item>
             <Form.Item
               name="password"
@@ -82,7 +87,7 @@ function Home() {
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder="Password"
-                onChange={aaa}
+                
               />
             </Form.Item>
             <Form.Item>
@@ -96,8 +101,8 @@ function Home() {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-form-button">
-              <Link to="/about" className="link-login" onClick={qqq}>войти</Link>
+              <Button type="primary"  htmlType="submit" className="login-form-button">
+              вход
               </Button>
               Or <a href="">register now!</a>
             </Form.Item>
@@ -109,3 +114,5 @@ function Home() {
   }
 
   export {Home};
+
+  
