@@ -1,5 +1,5 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Home.css"
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
@@ -109,6 +109,7 @@ function Home() {
           </Form>
         </div>
 
+        <Link  to="loade">zagruzki</Link>
       </div>
     );
   }

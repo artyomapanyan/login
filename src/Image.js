@@ -6,6 +6,8 @@ function Image ({image}) {
     const [textForm, setTextForm] = useState("");
     const [texts, setTexts] = useState([]);
     const [updateComment,setUpdateComment] = useState(false)
+
+    
     const addText = (textForm) => {
         setTexts([
           ...texts,
