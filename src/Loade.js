@@ -8,6 +8,10 @@ function Loade() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
     const [link, setLink] = useState([]);
+    const [page, setPage] = useState('1');
+    const [serch, setSerch] = useState("")
+
+
 
 
     let navigate = useNavigate();
@@ -17,9 +21,10 @@ function Loade() {
         navigate('/')
     };
 
-    const onPage = (page) => {
+    const onPage = (currentPage) => {
         setIsLoaded(false);
-        fetch(`https://kinotop.webtop.us/api/movies?page=${page}`)
+        setPage(currentPage)
+        fetch(`https://kinotop.webtop.us/api/movies?page=${currentPage}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -37,30 +42,22 @@ function Loade() {
                     setError(error);
                 }
             )
+
     }
 
     useEffect(() => {
-        fetch("https://kinotop.webtop.us/api/movies?page=50")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setLink(result.links.filter(function(el) {
-                        if (Number.isInteger(+el.label)) {
-                            return el.label
-                        }
-                    }))
-                    setIsLoaded(true);
-                    setItems(result.data);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+        onPage(page)
+
     }, []);
 
+    const onRefresh = () => {
+        onPage(page)
 
+        }
+    const onSearch = (e) => {
+        setSerch(e.target.value)
 
+    }
 
     return error ?
         <div>Ошибка: {error.message}
@@ -69,20 +66,66 @@ function Loade() {
         : !isLoaded ?
             <div>Загрузка...</div> :
             <div>
-                <button onClick={()=>onBack}>back</button>
-                <ul>
-                    {items.map(item => (
-                        <li key={item.id}>
-                            <Link to={`/film/${item.id}`} >{item.title_en}</Link>
-                        </li>
-                    ))}
-                </ul>
+                <button onClick={onBack}>back</button>
+                <button onClick={onRefresh}>refresh</button>
+                <input type="text" value={serch} onChange={onSearch}/>
 
+                <ul>
+                    {
+                        items.filter((el) => {
+                            return el.genres.find((fnd )=> {
+                               return fnd.name.toLowerCase().includes(serch.toLowerCase())
+                            }) || el.title_en.toLowerCase().includes(serch.toLowerCase())
+
+                        }).map(item => {
+                            console.log(item,'item')
+                            return (
+                                <li key={item.id}>
+
+                                    <Link to={`/film/${item.id}`} >{item.title_en}</Link>
+
+
+                                    {item.genres.map((gen, ind) =>{
+                                        //    console.log(gen,'gen')
+                                        return (
+                                            "(" + gen.name + ")" + (ind === item.genres.length-1 ? "": ",")
+
+                                        )
+                                    })
+                                    }
+
+                                    {item.sources.map((sours) =>{
+
+                                        return (
+                                            <div>
+                                                {sours.translator}
+                                            </div>
+                                        )
+                                    })
+                                    }
+                                    {item.countries.map((countri)=> {
+                                        return (<div>
+                                            {countri.name}
+                                        </div>)
+                                    })}
+
+
+
+                                </li>
+
+                            )
+                        })
+
+                    }
+                </ul>
                 {link.map((li,key) => (
                     <div key={key}>
-                        <button onClick={()=>onPage(li.label)}>{li.label}</button>
+                        {page === li.label ? li.label : <button onClick={()=>onPage(li.label)}>{li.label}</button>}
+
                     </div>
                 ))}
+
+
 
             </div>;
 
