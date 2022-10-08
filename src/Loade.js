@@ -10,6 +10,9 @@ function Loade() {
     const [link, setLink] = useState([]);
     const [page, setPage] = useState('1');
     const [serch, setSerch] = useState("");
+    const [callSerch, setCallSerch] = useState("");
+
+
 
 
     let defaultNull = null;
@@ -19,15 +22,16 @@ function Loade() {
     const onBack = () => {
         navigate('/')
     };
-
+//`https://kinotop.webtop.us/api/movies?page=${currentPage}`
     const onPage = (currentPage) => {
+        console.log(callSerch)
         setIsLoaded(false);
         setPage(currentPage)
-        fetch(`https://kinotop.webtop.us/api/movies?page=${currentPage}`)
+        fetch(( callSerch.length == 0) ? `https://kinotop.webtop.us/api/movies?page=${currentPage}` : `https://kinotop.webtop.us/api/movies/search/${callSerch}?page=${currentPage}`)
             .then(res => res.json())
-            .then(
-                (result) => {
-                    setLink(result.links.filter(function (el) {
+            .then((result) => {
+                console.log(result)//patasxan
+                    setLink(result.links.filter((el) => {
                         if (Number.isInteger(+el.label)) {
                             return el.label
                         }
@@ -60,20 +64,32 @@ function Loade() {
                 return i !== 0
             }))
         }, 1000)
+
     }
 
+
+
     function onSlashLink(e) {
-        console.log("aaa", defaultNull)
+        setCallSerch(e.target.value);
         clearTimeout(defaultNull)
         defaultNull = setTimeout(() =>
             fetch(`https://kinotop.webtop.us/api/movies/search/${e.target.value}`)
                 .then(res => res.json())
                 .then(
                     (result) => {
+                        setItems(result.data);
+
+                        setLink(result.links.filter((el) => {
+                            if (Number.isInteger(+el.label)) {
+                                return el.label
+                            }
+                        }))
                         console.log(result.data)
                     },
-                ), 3000)
+                ), 2000)
     }
+
+
     return error ?
         <div>Ошибка: {error.message}
             <button onClick={onBack}>back</button>
@@ -84,11 +100,11 @@ function Loade() {
                 <button onClick={onBack}>back</button>
                 <button onClick={onRefresh}>refresh</button>
                 <input type="text" value={serch} onChange={onSearch}/>
-                <input type="text" onChange={onSlashLink}/>
+                <input type="text" value={callSerch} onChange={onSlashLink}/>
                 <ul>
                     {
                         items.filter((el) => {
-                            return el.genres.find((fnd) => {
+                            return el.genres?.find((fnd) => {
                                 return fnd.name.toLowerCase().includes(serch.toLowerCase())
                             }) || el.title_en.toLowerCase().includes(serch.toLowerCase())
                         }).map(item => {
@@ -97,7 +113,7 @@ function Loade() {
 
                                     <Link to={`/film/${item.id}`}>{item.title_en}</Link>
 
-                                    {item.genres.map((gen, ind) => {
+                                    {item.genres?.map((gen, ind) => {
                                         //    console.log(gen,'gen')
                                         return (
                                             "(" + gen.name + ")" + (ind === item.genres.length - 1 ? "" : ",")
@@ -106,7 +122,7 @@ function Loade() {
                                     })
                                     }
                                     <button onClick={() => onDelete(item)}>x</button>
-                                    {item.sources.map((sours) => {
+                                    {item.sources?.map((sours) => {
 
                                         return (
                                             <div key={sours.id}>
@@ -115,7 +131,7 @@ function Loade() {
                                         )
                                     })
                                     }
-                                    {item.countries.map((countri) => {
+                                    {item.countries?.map((countri) => {
                                         return (<div key={countri.id}>
                                             {countri.name}
                                         </div>)
