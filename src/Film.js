@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 function  Film() {
 
     const [error, setError] = useState(null);

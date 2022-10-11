@@ -27,15 +27,11 @@ function Loade() {
         console.log(callSerch)
         setIsLoaded(false);
         setPage(currentPage)
-        fetch(( callSerch.length == 0) ? `https://kinotop.webtop.us/api/movies?page=${currentPage}` : `https://kinotop.webtop.us/api/movies/search/${callSerch}?page=${currentPage}`)
+        fetch(( callSerch.length === 0) ? `https://kinotop.webtop.us/api/movies?page=${currentPage}` : `https://kinotop.webtop.us/api/movies/search/${callSerch}?page=${currentPage}`)
             .then(res => res.json())
             .then((result) => {
                 console.log(result)//patasxan
-                    setLink(result.links.filter((el) => {
-                        if (Number.isInteger(+el.label)) {
-                            return el.label
-                        }
-                    }))
+                    setLink(result.links.filter((el) => Number.isInteger(+el.label)))
                     setIsLoaded(true);
                     setItems(result.data);
                 },
@@ -79,11 +75,7 @@ function Loade() {
                     (result) => {
                         setItems(result.data);
 
-                        setLink(result.links.filter((el) => {
-                            if (Number.isInteger(+el.label)) {
-                                return el.label
-                            }
-                        }))
+                        setLink(result.links.filter((el) => Number.isInteger(+el.label)))
                         console.log(result.data)
                     },
                 ), 2000)

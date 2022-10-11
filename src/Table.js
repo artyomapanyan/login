@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Button} from "antd";
 
 function Table() {
     const [data,setData] = useState([
@@ -26,12 +25,12 @@ function Table() {
     const [isUpdate, setIsUpdate] = useState(false)
 
 
-   const onSearch = (e, isUpdate) => {
-       setSearch(e.target.value );
-       if(isUpdate){
+   const onSearch = (e, index) => {
+        index === "name" ? setSearch(e.target.value ): setSearchLastName(e.target.value);
+       if(isUpdate !== false){
            setData(data.map((el, ind) => {
-               if(isUpdate == ind) {
-                   el.name = search
+               if(isUpdate === ind) {
+                   el[index] = e.target.value
                }
                return el;
            }))
@@ -39,24 +38,26 @@ function Table() {
 
     }
 
-    const onSearch1 = (e) => {
-        setSearchLastName(e.target.value)
-    }
-
-    const hendlApdate = (el) => {
+    const hendlApdate = (el, i) => {
         setSearchLastName(el.lastname);
         setSearch(el.name)
-        setIsUpdate(true)
+        setIsUpdate(i)
 
     }
+
+    const onUpdate = (e) => {
+        setSearchLastName("");
+        setSearch("");
+        setIsUpdate(false)
+        }
 
 
 
 
     return <div>
-        <input type="text" value={search}  onChange={onSearch} />
-        <input type="text" value={searchLastName}  onChange={onSearch1} />
-        {isUpdate ? <button>add</button> : ""}
+        <input type="text" value={search}  onChange={(e)=>onSearch(e, "name")} />
+        <input type="text" value={searchLastName}  onChange={(e)=>onSearch(e, "lastname")} />
+        {isUpdate !== false ? <button onClick={onUpdate}>update</button> : ""}
         {
             data.filter((el) => {
                 return el.lastname.includes(searchLastName) && el.name.includes(search);
@@ -66,7 +67,7 @@ function Table() {
                         <p>anun  -  {el.name}</p>
                         <p>azganun  -  {el.lastname}</p>
                     </div>
-                    <button onClick={()=>hendlApdate(el)}>{isUpdate ? "change" : "apdate" }</button>
+                    <button onClick={()=>hendlApdate(el, i)}>change</button>
                 </div>
             })
         }

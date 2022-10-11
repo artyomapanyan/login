@@ -58,7 +58,7 @@ function Image ({image}) {
 
     return (
         <div className="div-image1">
-            <img src={image} />
+            <img src={image} alt={'image'} />
             {
                   texts.map((text) => (
                     <Image1Text

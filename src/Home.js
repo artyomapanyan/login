@@ -1,5 +1,4 @@
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import {useState, useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import "./Home.css"
 
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
