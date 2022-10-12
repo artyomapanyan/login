@@ -110,6 +110,7 @@ function Registration(){
         })
     }
 
+
     const [form] = Form.useForm();
 
     const onFinish = (values) => {

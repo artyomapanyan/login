@@ -6,6 +6,7 @@ import './App.css';
  import { Film } from "./Film";
 import { Table } from "./Table";
 import {Registration} from "./Registration/Registration";
+import {EnterParol} from "./EnterParol/EnterParol";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="enterParol" element={<EnterParol />} />
         <Route path="register" element={<Registration />} />
         <Route path="about" element={<Login />} />
         <Route path="table" element={<Table />} />

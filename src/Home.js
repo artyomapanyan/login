@@ -1,59 +1,62 @@
 import {Link, useNavigate} from "react-router-dom";
 import "./Home.css"
-
+import {useDispatch, useSelector} from "react-redux";
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input} from 'antd';
 import 'antd/dist/antd.css';
 import React from 'react';
+import registrationState from "./reducers/registrationState";
+
 
 function Home() {
-    // const [valueLogin, setValueLogin] = useState("");
-    // const [valuePassword, setValuePassword] = useState("");
-
-    let login = "artyom";
-    let password = "apanyan";
-
-    // let aaa = (e) => {
-    //   setValuePassword(e.target.value)
-    // }
-
-    // let bbb = (e) => {
-    //   setValueLogin(e.target.value)
-    // }
-
-    // let qqq = (e) =>  {
-    //   if (valueLogin !== login) {
-    //     e.preventDefault();
-    //     alert("неправильное имя пользователя или пароль") 
-    //   } else if (valuePassword !== password) {
-    //     e.preventDefault();
-    //     alert("неправильное имя пользователя или пароль") 
-    //   }
-    // }
+    let reduxState = useSelector((state) => state)
+    console.log(reduxState)
+    let dispatch = useDispatch()
+    const handleUpdate = (type)=> {
+        dispatch({
+            type: type,
+            payload: 5
+        })
+    }
 
     let navigate = useNavigate();
 
+
     const onFinish = (values) => {
-        if (values.password === password && values.username === login) {
-            navigate('about')
-        } else {
-            alert("неправильное имя пользователя или пароль")
-        }
-    };
+        console.log("aaa", reduxState.registrationState.users)
+        if(values.register === true) {
+            dispatch({
+                type:'register',
+                payload:{
+                    id:Math.random(),
+                    name: values.username,
+                    password: values.password
+                }
+            })
+        }else {
+            if(reduxState.registrationState.users.find((el) => el.name === values.username && el.password === values.password)){
+                dispatch({
+                    type: 'LOGIN',
+                    payload: {
+                        id:Math.random(),
+                        name: values.username,
+                        password: values.password
+                    }
+                })
+                navigate('enterParol')
+            }else{
+                alert('dsad')
+            }
+
+
+            }
+
+    }
 
     return (
         <div className="main">
-            {/* <main>
-          <form onSubmit={qqq}>
-            
-               Login <input type="login" onChange={bbb}/>
-               Password <input type="text"  onChange={aaa} />
-                <Link to="/about" className="link-login" onClick={qqq}>войти</Link>
-            
-          </form>
-        </main> */}
 
-            <div className="div-form">
+            <div className="div-form" style={{justifyContent:'center'}}>
                 <Form
                     name="normal_login"
                     className="login-form"
@@ -90,8 +93,8 @@ function Home() {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox>Remember me</Checkbox>
+                        <Form.Item name="register" valuePropName="checked" noStyle>
+                            <Checkbox>register</Checkbox>
                         </Form.Item>
 
                         <a className="login-form-forgot" href="">
