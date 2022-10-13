@@ -27,6 +27,14 @@ export default function auth(state = {
             user:{}
         }
     }
+    if (action.type === 'UPDATE_USER') {
+        return {
+            ...state,
+            user:
+                action.payload,
+
+        };
+    }
 
     return state;
 }

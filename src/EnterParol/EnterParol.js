@@ -1,7 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
-import registrationState from "../reducers/registrationState";
+import React, {useEffect} from "react";
+import {Button, Form, Input} from "antd";
+import {UserOutlined} from "@ant-design/icons";
+
 
 function EnterParol() {
     let reduxState = useSelector((state) => state)
@@ -31,14 +33,61 @@ function EnterParol() {
         navigate("/");
     }
 
+    const onFinish = (values) => {
+        //console.log(values.username)
+        //console.log(reduxState.registrationState.users)
+
+            dispatch({
+                type:'UPDATE_USER',
+                payload:{
+                    id:reduxState.auth.user.id,
+                    name: values.username,
+                    password: values.password
+                }
+            })
+        navigate("/");
+    }
+
 
     return(
         <div>
+            <Form
+                initialValues={{
+                    remember: true,
+                    username: reduxState.auth.user.name,
+                    password: reduxState.auth.user.password
+                }}
+                onFinish={onFinish}
+            >
+                <Form.Item
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Username!',
+                        },
+                    ]}
+                >
+                    <Input className="username-input" prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Password!',
+                        },
+                    ]}
+                >
+                    <Input className="username-input" prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        update
+                    </Button>
+                </Form.Item>
+            </Form>
 
-            <p>login  {reduxState.auth.user.name}</p>
-            <p>login  {reduxState.auth.user.password}</p>
-
-            <button onClick={handleLogout}>logout</button>
 
         </div>
     )

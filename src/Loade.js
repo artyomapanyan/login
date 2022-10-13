@@ -11,6 +11,7 @@ function Loade() {
     const [page, setPage] = useState('1');
     const [serch, setSerch] = useState("");
     const [callSerch, setCallSerch] = useState("");
+    const [num, setNum] = useState(3);
 
 
 
@@ -22,15 +23,14 @@ function Loade() {
     const onBack = () => {
         navigate('/')
     };
-//`https://kinotop.webtop.us/api/movies?page=${currentPage}`
+
     const onPage = (currentPage) => {
-        console.log(callSerch)
         setIsLoaded(false);
         setPage(currentPage)
-        fetch(( callSerch.length === 0) ? `https://kinotop.webtop.us/api/movies?page=${currentPage}` : `https://kinotop.webtop.us/api/movies/search/${callSerch}?page=${currentPage}`)
+        fetch( `https://kinotop.webtop.us/api/movies?page=${currentPage}&${serch}=${callSerch}`)
             .then(res => res.json())
             .then((result) => {
-                console.log(result)//patasxan
+               console.log(result)//patasxan
                     setLink(result.links.filter((el) => Number.isInteger(+el.label)))
                     setIsLoaded(true);
                     setItems(result.data);
@@ -41,6 +41,10 @@ function Loade() {
                     setError(error);
                 }
             );
+    }
+
+    const nextPage = () => {
+        onPage((+page)+1)
     }
 
     useEffect(() => {
@@ -62,23 +66,15 @@ function Loade() {
         }, 1000)
 
     }
-
-
-
     function onSlashLink(e) {
         setCallSerch(e.target.value);
-        clearTimeout(defaultNull)
-        defaultNull = setTimeout(() =>
-            fetch(`https://kinotop.webtop.us/api/movies/search/${e.target.value}`)
-                .then(res => res.json())
-                .then(
-                    (result) => {
-                        setItems(result.data);
+    }
 
-                        setLink(result.links.filter((el) => Number.isInteger(+el.label)))
-                        console.log(result.data)
-                    },
-                ), 2000)
+
+
+    const nextBtn = () => {
+        setNum(num+10)
+
     }
 
 
@@ -93,20 +89,18 @@ function Loade() {
                 <button onClick={onRefresh}>refresh</button>
                 <input type="text" value={serch} onChange={onSearch}/>
                 <input type="text" value={callSerch} onChange={onSlashLink}/>
+                <button onClick={nextPage} >go next page</button>
+                <button onClick={onPage}>aaa</button>
                 <ul>
                     {
-                        items.filter((el) => {
-                            return el.genres?.find((fnd) => {
-                                return fnd.name.toLowerCase().includes(serch.toLowerCase())
-                            }) || el.title_en.toLowerCase().includes(serch.toLowerCase())
-                        }).map(item => {
+                        items.slice(0, num).map(item => {
                             return (
+
                                 <li key={item.id}>
 
                                     <Link to={`/film/${item.id}`}>{item.title_en}</Link>
 
                                     {item.genres?.map((gen, ind) => {
-                                        //    console.log(gen,'gen')
                                         return (
                                             "(" + gen.name + ")" + (ind === item.genres.length - 1 ? "" : ",")
 
@@ -132,8 +126,12 @@ function Loade() {
                             )
                         })
 
+
                     }
+
                 </ul>
+                {num <= items.length ? <button onClick={nextBtn} >next</button> : null}
+
                 {link.map((li, key) => (
                     <div key={key}>
                         {page === li.label ? li.label : <button onClick={() => onPage(li.label)}>{li.label}</button>}

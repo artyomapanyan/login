@@ -10,6 +10,15 @@ export default function registrationState(state = {
             ]
         }
     }
+    if (action.type === 'UPDATE_USER') {
+        return {
+            ...state,
+            users:[
+                action.payload,
+                ...state.users.filter((obj) => obj.id !== action.payload.id)
+            ]
+        };
+    }
 
 
     return state;

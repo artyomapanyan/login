@@ -7,7 +7,7 @@ import './App.css';
 import { Table } from "./Table";
 import {Registration} from "./Registration/Registration";
 import {EnterParol} from "./EnterParol/EnterParol";
-
+import {ForgotPassword} from "./ForgotPassword";
 
 function App() {
   return (
@@ -19,7 +19,8 @@ function App() {
         <Route path="about" element={<Login />} />
         <Route path="table" element={<Table />} />
         <Route path="films" element={<Loade />} />
-           <Route path="film/:id" element={<Film />} />
+        <Route path="forgotPassword" element={<ForgotPassword />} />
+        <Route path="film/:id" element={<Film />} />
       </Routes>
     </div>
   );

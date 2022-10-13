@@ -23,7 +23,7 @@ function Home() {
 
 
     const onFinish = (values) => {
-        console.log("aaa", reduxState.registrationState.users)
+        //console.log("aaa", reduxState.registrationState.users)
         if(values.register === true) {
             dispatch({
                 type:'register',
@@ -97,7 +97,7 @@ function Home() {
                             <Checkbox>register</Checkbox>
                         </Form.Item>
 
-                        <a className="login-form-forgot" href="">
+                        <a className="login-form-forgot" href="/forgotPassword">
                             Forgot password
                         </a>
                     </Form.Item>
