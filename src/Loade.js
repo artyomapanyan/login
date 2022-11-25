@@ -1,8 +1,12 @@
-import {useState, useEffect} from "react";
+
 import {Link, useNavigate, useParams} from "react-router-dom";
+import "./Loade.css";
+import {Form} from 'antd';
+import React, { useEffect, useState } from 'react';
 
 
-function Loade() {
+
+function Loade({ index, ...props }) {
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -15,8 +19,8 @@ function Loade() {
 
 
 
+    const [form] = Form.useForm();
 
-    let defaultNull = null;
     let navigate = useNavigate();
     let {id} = useParams();
 
@@ -130,10 +134,12 @@ function Loade() {
                     }
 
                 </ul>
-                {num <= items.length ? <button onClick={nextBtn} >next</button> : null}
+                <div>
+                    {num <= items.length ? <button onClick={nextBtn} className="buttonNext" >next...</button> : null}
+                </div>
 
                 {link.map((li, key) => (
-                    <div key={key}>
+                    <div key={key} className="pageButton">
                         {page === li.label ? li.label : <button onClick={() => onPage(li.label)}>{li.label}</button>}
 
                     </div>

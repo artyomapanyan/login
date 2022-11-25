@@ -8,6 +8,7 @@ import { Table } from "./Table";
 import {Registration} from "./Registration/Registration";
 import {EnterParol} from "./EnterParol/EnterParol";
 import {ForgotPassword} from "./ForgotPassword";
+import { Butstrap } from "./Butstrap";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="films" element={<Loade />} />
         <Route path="forgotPassword" element={<ForgotPassword />} />
         <Route path="film/:id" element={<Film />} />
+          <Route path="butstrap" element={<Butstrap />} />
       </Routes>
     </div>
   );
